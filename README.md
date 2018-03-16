@@ -1,0 +1,1 @@
+# AyaCoin-smart-contract
