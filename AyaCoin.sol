@@ -10,14 +10,16 @@ contract AyaCoin is StandardToken{
     string public symbol = "Aya";
     uint256 public decimals = 18;
 
-    // 267M
+    // total token supply
     uint256 public totalSupply =  595600057 * (uint256(10) ** decimals);
     uint256 public totalRaised; // total ether raised (in wei)
 
     uint256 public totalShareable; // total shareable ethers (in wei)
-
-    // 1 ETH = 87245 tokens -- This will be adjusted as the ITO approaches to reflect the price of $0.01/token
-    uint256 public coinPerETH = 87245;
+    
+    // This will be adjusted as the ITO approaches to reflect the price of $0.01/token
+    // This would only be used if there was some reason for tokens to be purchased directly from the contract from an approved address
+    // 1 ETH = $602.39 = 60239 tokens
+    uint256 public coinPerETH = 60239;
 
     /**
      * List of all users
@@ -27,7 +29,8 @@ contract AyaCoin is StandardToken{
     // whitelisted users -- Used only if this contract distributed tokens directly to investors
     mapping(address => bool) public whiteList;
 
-    // blacklisted wallets, such as the admin wallet and StartEngine's wallet, are excluded from profit shares
+    // blacklisted wallets, such as the admin wallet and fundraising platform's wallet, are excluded from profit shares
+    // this is so that profits are only shared with 'actual' token holders, not just third parties
     mapping(address => bool) public blackList;
     address[] public allBlacklist;
 
@@ -36,9 +39,8 @@ contract AyaCoin is StandardToken{
      */
     address public fundsWallet;
 
-
     function AyaCoin() {
-        fundsWallet = 0x8c7704eA2d934692B21419Bf2a5AC6165a45CE98;
+        fundsWallet = 0x8356eF00EA6B6CB82B099Cd3939ac23bddCB09E3; //admin wallet
         balances[fundsWallet] = totalSupply;
 
         // launch coins and send them to fundsWallet
