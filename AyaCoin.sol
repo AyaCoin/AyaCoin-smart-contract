@@ -11,7 +11,7 @@ contract AyaCoin is StandardToken{
     uint256 public decimals = 18;
 
     // 267M
-    uint256 public totalSupply = 629940000 * (uint256(10) ** decimals);
+    uint256 public totalSupply =  595600057 * (uint256(10) ** decimals);
     uint256 public totalRaised; // total ether raised (in wei)
 
     uint256 public totalShareable; // total shareable ethers (in wei)
