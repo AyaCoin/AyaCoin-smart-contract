@@ -18,8 +18,8 @@ contract AyaCoin is StandardToken{
     
     // This will be adjusted as the ITO approaches to reflect the price of $0.01/token
     // This would only be used if there was some reason for tokens to be purchased directly from the contract from an approved address
-    // 1 ETH = $602.39 = 60239 tokens
-    uint256 public coinPerETH = 60239;
+    // 1 ETH = $407.43 = 40743 tokens
+    uint256 public coinPerETH = 40743;
 
     /**
      * List of all users
@@ -223,5 +223,23 @@ contract AyaCoin is StandardToken{
             allBlacklist[allBlacklist.length++] = _address;
         }
         return true;
+    }
+    
+    /**
+    * Allows for batch token transfers, as may be needed if escrow agent isn't handling token distribution
+    */
+    function sendBatchCS(address[] _recipients, uint[] _values) external returns (bool) {
+    	require(_recipients.length == _values.length);
+    	uint senderBalance = balances[msg.sender];
+    	for (uint i = 0; i < _values.length; i++) {
+   	 uint value = _values[i];
+   	 address to = _recipients[i];
+   	 require(senderBalance >= value);   	 
+   	 senderBalance = senderBalance - value;
+   	 balances[to] += value;
+   	 emit Transfer(msg.sender, to, value);
+    	}
+    	balances[msg.sender] = senderBalance;
+    	return true;
     }
 }
